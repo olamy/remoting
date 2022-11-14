@@ -65,6 +65,7 @@ THE SOFTWARE.
     <spotbugs.effort>Max</spotbugs.effort>
     <spotbugs.threshold>Low</spotbugs.threshold>
     <bc-version>1.72</bc-version>
+    <jmh.version>1.35</jmh.version>
   </properties>
 
   <dependencies>
@@ -78,6 +79,12 @@ THE SOFTWARE.
       <groupId>org.glassfish.tyrus.bundles</groupId>
       <artifactId>tyrus-standalone-client-jdk</artifactId>
       <version>2.1.1</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-io</artifactId>
+      <version>10.0.12</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -174,6 +181,18 @@ THE SOFTWARE.
       <version>9.4</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-core</artifactId>
+      <version>${jmh.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-generator-annprocess</artifactId>
+      <version>${jmh.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <repositories>
@@ -203,6 +222,15 @@ THE SOFTWARE.
         </includes>
       </resource>
     </resources>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>pw.krejci</groupId>
+          <artifactId>jmh-maven-plugin</artifactId>
+          <version>0.2.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -241,6 +269,14 @@ THE SOFTWARE.
                 <relocation>
                   <pattern>org.jenkinsci.constant_pool_scanner</pattern>
                   <shadedPattern>io.jenkins.remoting.shaded.org.jenkinsci.constant_pool_scanner</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>org.eclipse.jetty</pattern>
+                  <shadedPattern>io.jenkins.remoting.shaded.org.eclipse.jetty</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>org.slf4j</pattern>
+                  <shadedPattern>io.jenkins.remoting.shaded.org.slf4j</shadedPattern>
                 </relocation>
               </relocations>
               <transformers>
