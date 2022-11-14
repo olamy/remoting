@@ -24,7 +24,6 @@
 package org.jenkinsci.remoting.util;
 
 import net.jcip.annotations.GuardedBy;
-import org.eclipse.jetty.io.ArrayByteBufferPool;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;

@@ -18,8 +18,8 @@ public class ByteBufferPoolBenchmark
 {
 
     @Param({
-            "simple",
-            "jetty"
+            "array-global-lock-pool",
+            "no-pool"
     })
     public static String POOL_TYPE;
 
@@ -29,10 +29,10 @@ public class ByteBufferPoolBenchmark
     public void setUp() throws Exception
     {
         switch (POOL_TYPE) {
-            case "simple" :
+            case "array-global-lock-pool" :
                 pool = new SimpleDirectByteBufferPool(16916, Runtime.getRuntime().availableProcessors() * 4);
                 break;
-            case "jetty" :
+            case "no-pool" :
                 pool = new DirectByteBufferPool(16916, Runtime.getRuntime().availableProcessors() * 4);
                 break;
             default:
@@ -50,6 +50,13 @@ public class ByteBufferPoolBenchmark
     public void testAcquireRelease()
     {
         ByteBuffer buffer = pool.acquire(8192);
+        pool.release(buffer);
+    }
+
+    @Benchmark
+    public void testAcquireReleaseLargerBuffer()
+    {
+        ByteBuffer buffer = pool.acquire(8192 * 2);
         pool.release(buffer);
     }
 

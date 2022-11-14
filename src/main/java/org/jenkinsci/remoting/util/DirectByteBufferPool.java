@@ -24,15 +24,13 @@
 package org.jenkinsci.remoting.util;
 
 import java.nio.ByteBuffer;
-import org.eclipse.jetty.io.ArrayByteBufferPool;
 
 /**
- * Wrapper of the top of {@link ArrayByteBufferPool}
+ * Wrapper on no pool
  */
 public class DirectByteBufferPool implements ByteBufferPool {
 
 
-    private org.eclipse.jetty.io.ByteBufferPool byteBufferPool;
 
     /**
      * Constructor.
@@ -40,10 +38,7 @@ public class DirectByteBufferPool implements ByteBufferPool {
      * @param maxPoolSize the maximum buffers to keep in the pool.
      */
     public DirectByteBufferPool(int minBufferSize, int maxPoolSize) {
-        // int minCapacity, int factor, int maxCapacity, int maxBucketSize, long maxHeapMemory,
-        // long maxDirectMemory, long retainedHeapMemory, long retainedDirectMemory
-        this.byteBufferPool =
-                new ArrayByteBufferPool(minBufferSize, 16, -1, -1, 0, 0, 0, 0);
+        // nope
     }
 
     /**
@@ -51,7 +46,7 @@ public class DirectByteBufferPool implements ByteBufferPool {
      */
     @Override
     public ByteBuffer acquire(int size) {
-        return byteBufferPool.acquire(size, true);
+        return ByteBuffer.allocateDirect(size);
     }
 
     /**
@@ -59,6 +54,6 @@ public class DirectByteBufferPool implements ByteBufferPool {
      */
     @Override
     public void release(ByteBuffer buffer) {
-        byteBufferPool.release(buffer);
+        buffer.clear();
     }
 }
