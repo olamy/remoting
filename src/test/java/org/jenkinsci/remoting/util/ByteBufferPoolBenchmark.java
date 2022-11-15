@@ -19,7 +19,8 @@ public class ByteBufferPoolBenchmark
 
     @Param({
             "array-global-lock-pool",
-            "no-pool"
+            "no-pool",
+            "jetty-pool"
     })
     public static String POOL_TYPE;
 
@@ -35,6 +36,8 @@ public class ByteBufferPoolBenchmark
             case "no-pool" :
                 pool = new DirectByteBufferPool(16916, Runtime.getRuntime().availableProcessors() * 4);
                 break;
+            case "jetty-pool" :
+                pool = new JettyByteBufferPool(16916, Runtime.getRuntime().availableProcessors() * 4);
             default:
                 throw new IllegalStateException();
         }
