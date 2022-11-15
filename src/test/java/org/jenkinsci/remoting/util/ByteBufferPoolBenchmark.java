@@ -38,6 +38,7 @@ public class ByteBufferPoolBenchmark
                 break;
             case "jetty-pool" :
                 pool = new JettyByteBufferPool(16916, Runtime.getRuntime().availableProcessors() * 4);
+                break;
             default:
                 throw new IllegalStateException();
         }
