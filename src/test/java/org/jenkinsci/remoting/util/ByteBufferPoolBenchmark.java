@@ -51,6 +51,13 @@ public class ByteBufferPoolBenchmark
     }
 
     @Benchmark
+    public void testAcquireReleaseSmallBuffer()
+    {
+        ByteBuffer buffer = pool.acquire(2000);
+        pool.release(buffer);
+    }
+
+    @Benchmark
     public void testAcquireRelease()
     {
         ByteBuffer buffer = pool.acquire(8192);
@@ -60,7 +67,7 @@ public class ByteBufferPoolBenchmark
     @Benchmark
     public void testAcquireReleaseLargerBuffer()
     {
-        ByteBuffer buffer = pool.acquire(8192 * 2);
+        ByteBuffer buffer = pool.acquire(8192 * 5);
         pool.release(buffer);
     }
 
